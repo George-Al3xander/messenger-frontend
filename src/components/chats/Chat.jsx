@@ -17,7 +17,7 @@ const Chat = () => {
     }, [currentUser])
     const [chat, setChat] = useState({});
     const [messages, setMessages] = useState({});
-    const partner = chat.participants.filter((party) =>  party.id != currentUser._id)[0] || {};
+    const [partner, setPartner] = useState({});
     const getChat = async () => {
         const res = await fetch(`${apiLink}/rooms/${currentUser._id}/${id}`, {
             method: "GET",
@@ -44,6 +44,7 @@ const Chat = () => {
     useEffect(() => {
         if(Object.keys(chat).length > 0) {
             getMessages(chat._id)
+            setPartner(chat.participants.filter((party) =>  party.id != currentUser._id)[0])
         }
     },[chat])
     return(<div>
@@ -53,6 +54,8 @@ const Chat = () => {
         {messages.length > 0 ? messages.map((message) => {
             return <Message partner={partner} message={message} /> 
         }) : null}
+
+        <input type="text" /><button>Send</button>
     </div>)
 }
 

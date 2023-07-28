@@ -1,3 +1,11 @@
 .chat-preview {
   border: 1px solid black;
 }
+
+.message-user {
+  text-align: right;
+}
+
+input{
+    text-align: center;
+}

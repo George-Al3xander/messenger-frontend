@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react'
+import { useState, useContext, useEffect, useRef } from 'react'
 import { Context } from "../context"
 import ChatPreview from './chats/ChatPreview';
 import { Link } from 'react-router-dom';
@@ -7,9 +7,11 @@ import { Link } from 'react-router-dom';
 
 const Chats = () => {
 
-    const {apiLink, setToken, currentUser ,setCurrentUser, token, navigate, loggedInCoond} = useContext(Context)
-    const [chats, setChats] = useState([]);
-
+    const {apiLink, setToken, currentUser ,setCurrentUser, token, navigate, loggedInCoond, setChats, chats} = useContext(Context)
+    const [searchKey, setSearchKey] = useState("");
+    const [searchResultUsers, setSearchResultUsers] = useState([])
+    const [searchResultLocal, setSearchResultLocal] = useState([])
+    const input = useRef()
     const getChats = async () => {
         let chatsDb = await fetch(`${apiLink}/rooms/${currentUser._id}/`, {
             method: "GET",
@@ -32,6 +34,26 @@ const Chats = () => {
         return messages
     }
 
+    const search = async () => {
+        //let valid = new RegExp(`${searchKey.toLowerCase()}`);
+       // return valid.test(user.username.toLowerCase()) == true 
+
+       const res = await fetch(`${apiLink}/users/search?searchKey=${searchKey}`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`,           
+        }                      
+        })
+        const data = await res.json();
+        setSearchResultUsers(await data);
+        
+    }
+
+    useEffect(() => {
+        
+        
+    }, [searchKey])
+
     useEffect(() => {
         if(!loggedInCoond) {
             navigate("/login")
@@ -49,15 +71,25 @@ const Chats = () => {
            getDone()
         }        
     }, [currentUser])
-    //"64c1f44f0d727b6f031474d0" - chat ID
-    return(<ul className='chats'>
+   
+    return(
+    <>
+    <div className='seach-field'>
+        <input type="text" onChange={() => {
+            setSearchKey(input.current.value)
+        }} ref={input} placeholder='What or who you looking for?' />
+    </div>
+    
+    <ul className='chats'>
         <button onClick={async () => {               
         }} >Click</button>
         <h1>Chats</h1>
         {chats.length > 0 ? chats.map((chat) => {
             return <Link to={"/chats/" + chat._id}><ChatPreview chat={chat}/></Link>
         }) : null}
-    </ul>)
+    </ul>
+    </>
+    )
 }
 
 export default Chats

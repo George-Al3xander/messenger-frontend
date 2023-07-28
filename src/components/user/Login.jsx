@@ -42,15 +42,17 @@ const Login = () => {
             setMsgError(error)
         }       
     }
-    return(<form onSubmit={login} ref={form}>
+    return(
+    <form onSubmit={login} ref={form}>
         {msgError != "" ? msgError : null}
         <br />
-        <input type="text" name='username'/>
+        <input required type="text" name='username'/>
         <br />
-        <input type="password" name='password' />
+        <input required type="password" name='password' />
         <br />
         <button>Login</button>
-    </form>)
+    </form>
+    )
 }
 
 export default Login

@@ -7,11 +7,15 @@ const Message = ({message, partner}) => {
 
     return(<>
 
-    {/* {partner.id != message.userId ? <div className='message'>
+    {partner.id != message.userId ?
+         <div className='message message-user'>
+            <p>{message.text}</p>           
+        </div>        
+        : 
         
-        </div>: <div className='message'>
-        
-        </div>}    */}
+        <div className='message message-partner'>
+            <p>{message.text}</p>
+        </div>}   
     
     
     </>)
