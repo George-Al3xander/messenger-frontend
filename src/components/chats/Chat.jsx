@@ -25,8 +25,14 @@ const Chat = () => {
                 "Authorization": `Bearer ${token}`,           
             }                      
         })
-        const data = await res.json();
-        setChat(data)
+
+        if(res.status == 200) {
+            const data = await res.json();
+            console.log(await data)
+            setChat(data)
+        } else {
+           
+        }
     }
     const getMessages = async (chatId) => {
         let messages = await fetch(`${apiLink}/rooms/${currentUser._id}/${chatId}/messages`, {
@@ -42,7 +48,7 @@ const Chat = () => {
         getChat();
     }, []);
     useEffect(() => {
-        if(Object.keys(chat).length > 0) {
+        if(chat._id && chat.participants) {
             getMessages(chat._id)
             setPartner(chat.participants.filter((party) =>  party.id != currentUser._id)[0])
         }

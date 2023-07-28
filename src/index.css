@@ -1,4 +1,4 @@
-.chat-preview {
+.chat-preview, .search-field {
   border: 1px solid black;
 }
 
@@ -8,4 +8,8 @@
 
 input{
     text-align: center;
+}
+
+.search-field {
+
 }

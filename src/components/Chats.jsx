@@ -35,8 +35,8 @@ const Chats = () => {
     }
 
     const search = async () => {
-        //let valid = new RegExp(`${searchKey.toLowerCase()}`);
-       // return valid.test(user.username.toLowerCase()) == true 
+        const valid = new RegExp(`${searchKey.toLowerCase()}`);
+       
 
        const res = await fetch(`${apiLink}/users/search?searchKey=${searchKey}`, {
         method: "GET",
@@ -44,13 +44,30 @@ const Chats = () => {
             "Authorization": `Bearer ${token}`,           
         }                      
         })
-        const data = await res.json();
-        setSearchResultUsers(await data);
+        const data = await res.json();        
+        setSearchResultUsers(await data.data);  
         
+        let locals = chats.filter((chat) => {            
+            return (
+                valid.test(chat.participants[0].username.toLowerCase()) == true
+                ||
+                valid.test(chat.participants[1].username.toLowerCase()) == true
+                ||
+                chat.messages.some((message) => {
+                    return valid.test(message.text.toLowerCase()) == true
+                })
+            ) 
+        })
+        setSearchResultLocal(locals)        
     }
 
     useEffect(() => {
-        
+        if(searchKey != "") {
+            search();
+        } else {
+            setSearchResultUsers([])
+            setSearchResultLocal([])
+        }
         
     }, [searchKey])
 
@@ -67,17 +84,22 @@ const Chats = () => {
                     }))
                 setChats(await chatsDb)
             }
-
            getDone()
         }        
     }, [currentUser])
    
     return(
     <>
-    <div className='seach-field'>
+    <div className='search-field'>
         <input type="text" onChange={() => {
             setSearchKey(input.current.value)
         }} ref={input} placeholder='What or who you looking for?' />
+        {searchResultUsers.length > 0 ? searchResultUsers.map((user) => {            
+            return <h2>{user.username}</h2>
+        }) : null}
+        {searchResultLocal.length > 0 ? searchResultLocal.map((chat) => {            
+            return <Link to={"/chats/" + chat._id}><ChatPreview chat={chat}/></Link>
+        }) : null}
     </div>
     
     <ul className='chats'>
