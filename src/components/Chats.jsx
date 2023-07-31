@@ -21,7 +21,7 @@ const Chats = () => {
         })
         chatsDb = await chatsDb.json();
         return chatsDb
-    }
+    }    
 
     const getMessages = async (chatId) => {
         let messages = await fetch(`${apiLink}/rooms/${currentUser._id}/${chatId}/messages`, {
@@ -36,9 +36,7 @@ const Chats = () => {
 
     const search = async () => {
         const valid = new RegExp(`${searchKey.toLowerCase()}`);
-       
-
-       const res = await fetch(`${apiLink}/users/search?searchKey=${searchKey}`, {
+        const res = await fetch(`${apiLink}/users/${currentUser._id}/search?searchKey=${searchKey}`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`,           
@@ -67,26 +65,28 @@ const Chats = () => {
         } else {
             setSearchResultUsers([])
             setSearchResultLocal([])
+            
         }
         
     }, [searchKey])
 
+    const getDone = async () => {
+        let messages; 
+        let chatsDb = await getChats();
+        chatsDb = Promise.all(chatsDb.map(async (chatDb) => {
+            messages = await getMessages(chatDb._id);
+            return {...chatDb,messages}
+            }))
+        setChats(await chatsDb)
+    }
+
     useEffect(() => {
         if(!loggedInCoond) {
             navigate("/login")
-        } else {
-           const getDone = async () => {
-                let messages; 
-                let chatsDb = await getChats();
-                chatsDb = Promise.all(chatsDb.map(async (chatDb) => {
-                    messages = await getMessages(chatDb._id);
-                    return {...chatDb,messages}
-                    }))
-                setChats(await chatsDb)
-            }
+        } else {           
            getDone()
         }        
-    }, [currentUser])
+    }, [])
    
     return(
     <>
@@ -94,8 +94,8 @@ const Chats = () => {
         <input type="text" onChange={() => {
             setSearchKey(input.current.value)
         }} ref={input} placeholder='What or who you looking for?' />
-        {searchResultUsers.length > 0 ? searchResultUsers.map((user) => {            
-            return <h2>{user.username}</h2>
+        {searchResultUsers.length > 0 ? searchResultUsers.map((user) => {       
+            return <Link to={"/chats/" + user.username}><h2>{user.username}</h2></Link>
         }) : null}
         {searchResultLocal.length > 0 ? searchResultLocal.map((chat) => {            
             return <Link to={"/chats/" + chat._id}><ChatPreview chat={chat}/></Link>

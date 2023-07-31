@@ -27,14 +27,7 @@ const Login = () => {
         const data = await res.json();
         if(res.status == 200) {
             setToken(data.token)
-            const user = await fetch(`${apiLink}/users/current`, {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${data.token}`,           
-                }                      
-            })
-            setCurrentUser(await user.json()) 
-            setMsgError("")
+            setCurrentUser(data.user)             
         } else {
             throw data.msg
         }

@@ -5,10 +5,9 @@ import { HashRouter } from 'react-router-dom'
 import { Context } from './context.js'
 import "../src/index.css"
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+ReactDOM.createRoot(document.getElementById('root')).render(  
       <HashRouter>            
             <App/>            
       </HashRouter>    
-  </React.StrictMode>,
+  ,
 )
