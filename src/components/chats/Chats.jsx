@@ -1,7 +1,8 @@
-import { useState, useContext, useEffect, useRef } from 'react'
+import { useState, useContext, useEffect} from 'react'
 import { Context } from "../../context"
 import ChatPreview from './ChatPreview';
 import { Link } from 'react-router-dom';
+import HeaderChats from '../headers/HeaderChats';
 
 
 
@@ -10,8 +11,7 @@ const Chats = () => {
     const {apiLink, setToken, currentUser ,setCurrentUser, token, navigate, loggedInCoond, setChats, chats} = useContext(Context)
     const [searchKey, setSearchKey] = useState("");
     const [searchResultUsers, setSearchResultUsers] = useState([])
-    const [searchResultLocal, setSearchResultLocal] = useState([])
-    const input = useRef()
+    const [searchResultLocal, setSearchResultLocal] = useState([])    
     const getChats = async () => {
         let chatsDb = await fetch(`${apiLink}/rooms/${currentUser._id}/`, {
             method: "GET",
@@ -66,9 +66,7 @@ const Chats = () => {
         } else {
             setSearchResultUsers([])
             setSearchResultLocal([])
-            
-        }
-        
+        }        
     }, [searchKey])
 
     const getDone = async () => {
@@ -90,28 +88,23 @@ const Chats = () => {
     }, [])
    
     return(
-    <>
-    <div className='search-field'>
-        <input type="text" onChange={() => {
-            setSearchKey(input.current.value)
-        }} ref={input} placeholder='What or who you looking for?' />
-        {searchResultUsers.length > 0 ? searchResultUsers.map((user) => {       
-            return <Link to={"/chats/" + user.username}><h2>{user.username}</h2></Link>
-        }) : null}
-        {searchResultLocal.length > 0 ? searchResultLocal.map((chat) => {            
-            return <Link to={"/chats/" + chat._id}><ChatPreview chat={chat}/></Link>
-        }) : null}
+    <div className='content'>
+        <HeaderChats setSearchKey={setSearchKey} />
+        <div className='search-field'>            
+            {searchResultUsers.length > 0 ? searchResultUsers.map((user) => {       
+                return <Link to={"/chats/" + user.username}><h2>{user.username}</h2></Link>
+            }) : null}
+            {searchResultLocal.length > 0 ? searchResultLocal.map((chat) => {            
+                return <Link to={"/chats/" + chat._id}><ChatPreview chat={chat}/></Link>
+            }) : null}
+        </div>
+        
+        <ul className='chats'>
+            {chats.length > 0 ? chats.map((chat) => {
+                return <Link to={"/chats/" + chat._id}><ChatPreview chat={chat}/></Link>
+            }) : null}
+        </ul>
     </div>
-    
-    <ul className='chats'>
-        <button onClick={async () => {               
-        }} >Click</button>
-        <h1>Chats</h1>
-        {chats.length > 0 ? chats.map((chat) => {
-            return <Link to={"/chats/" + chat._id}><ChatPreview chat={chat}/></Link>
-        }) : null}
-    </ul>
-    </>
     )
 }
 

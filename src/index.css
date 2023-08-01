@@ -62,8 +62,19 @@ body {
   width: 100%;
 }
 
-form {
+.content {
+  width: min(90%, 50rem);
+  padding-block: 2rem;
+  margin-inline: auto;
+}
+
+form, .chat-preview-header, .chat-preview-body {
   display: flex;
+}
+
+.chat-preview-header, .chat-preview-body {
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 form {
@@ -125,6 +136,17 @@ fieldset,form legend {
   text-align: center;
 }
 
+.form-footer  h1 {
+  font-size: var(--fs-big);
+  font-weight: 700;
+  margin-bottom: 3rem;
+}
+
+.form-footer  h1 a{
+  margin-right: 1rem;
+
+}
+
 .form-footer p {
   opacity: .7;
   margin-bottom: 1rem;
@@ -146,8 +168,11 @@ form button, input {
 }
 
 input {
-  background-color: lightgray;
-  
+  background-color: lightgray;  
+}
+
+input:focus {
+  border: 2px  solid black;
 }
 
 ::placeholder {
@@ -168,13 +193,58 @@ form .names {
 
 .error {
   font-size: var(--fs-default);
-  color: red;
-  text-align: center;
+  color: red;  
   font-style: italic;
   font-size: var(--fs-small);
+}
+
+.error h1 {
+  margin-bottom: .5rem;
 }
 
 .form-wrap {
   width: min(90%, 35rem);  
   margin-top: 3%;
+}
+
+nav h1 {
+  font-weight: 600;
+  font-size: var(--fs-big);
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+
+nav ul svg {
+  fill: var(--clr-primary);
+}
+
+nav ul svg:hover {
+  fill: var(--clr-accent-dark);
+  transition: all .5s ease;
+  cursor: pointer;
+}
+
+.chat-preview-header {
+  margin-bottom: 1rem;
+}
+
+.chat-preview h1{
+  font-size: var(--fs-big);
+  font-weight: 500;
+}
+
+.chat-preview h2 {
+  font-size: var(--fs-small);
+  opacity: .7;
+}
+
+.chats {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }

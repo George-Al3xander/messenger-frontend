@@ -159,7 +159,8 @@ const Chat = () => {
     },[messages])
 
     
-    return(<div>
+    return(
+    <div className='chat'>
         <h1>{Object.keys(partner).length !== 0 ? partner.username : null}</h1>
         {messages.length > 0 ? messages.map((message) => {
             return <Message partner={partner} message={message} /> 
@@ -170,7 +171,8 @@ const Chat = () => {
                 setMessageText(e.target.value)
             }} /><button >Send</button>
         </form>
-    </div>)
+    </div>
+    )
 }
 
 export default Chat
