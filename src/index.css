@@ -1,15 +1,180 @@
-.chat-preview, .search-field {
-  border: 1px solid black;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+/*** The new CSS Reset - version 1.2.0 (last updated 23.7.2021) ***/
+
+/* Remove all the styles of the "User-Agent-Stylesheet", except for the 'display' property */
+*:where(:not(iframe, canvas, img, svg, video):not(svg *)) {
+  all: unset;
+  display: revert;
 }
 
-.message-user {
-  text-align: right;
+/* Preferred box-sizing value */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-input{
-    text-align: left;
+/*
+  Remove list styles (bullets/numbers)
+  in case you use it with normalize.css
+*/
+ol, ul {
+  list-style: none;
 }
 
-.search-field {
+/* For images to not be able to exceed their container */
+img {
+  display: block;
+  max-width: 100%;
+}
 
+/* Removes spacing between cells in tables */
+table {
+  border-collapse: collapse;
+}
+
+/* Revert the 'white-space' property for textarea elements on Safari */
+textarea {
+  white-space: revert;
+}
+
+:root {
+  --ff-default: 'Roboto', sans-serif;
+  --fs-default: 1rem;
+  --fs-small: calc(var(--fs-default) * .85);
+  --fs-medium: calc(var(--fs-default) * 1.25);
+  --fs-big: calc(var(--fs-default) * 1.5);
+  --fs-large: calc(var(--fs-default) * 2);
+
+
+  --clr-primary:  rgb(48, 163, 230);
+  --clr-accent: white;
+  --clr-accent-dark: black;
+}
+
+body {
+  font-family: var(--ff-default);  
+}
+
+#root {
+  width: 100%;
+}
+
+form {
+  display: flex;
+}
+
+form {
+  flex-direction: column;  
+  border-radius: 1rem;
+
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+form legend, form button {
+  background-color: var(--clr-primary);
+  color: var(--clr-accent);
+  font-weight: 700;
+  text-align: center;
+}
+
+form button {
+  margin-top: 2rem;
+  transition: all .5s ease;
+
+}
+
+form button:hover {
+  cursor: pointer;
+  background-color: var(--clr-accent-dark);
+  transition: all .5s ease;
+  letter-spacing: .1rem;
+}
+
+form a:hover {
+  cursor: pointer;
+  color: var(--clr-accent-dark);
+  text-decoration: underline;
+  color: var(--clr-accent-dark);
+}
+
+form legend {
+  font-size: var(--fs-large);  
+  padding: 7%;
+  border-radius: 1rem 1rem 0 0;
+  text-transform: capitalize;
+  
+}
+
+.container {
+  margin-inline: auto;
+}
+
+fieldset,form legend {
+  width: 100%;
+}
+
+.form-body, .form-footer {
+  padding: 7%;
+}
+
+.form-footer {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.form-footer p {
+  opacity: .7;
+  margin-bottom: 1rem;
+}
+
+.form-footer a {
+  text-transform: uppercase;
+  color: var(--clr-primary);
+  font-weight: 700;
+  text-align: center;
+}
+
+
+form button, input {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 2rem;
+  margin-bottom: 1rem;
+}
+
+input {
+  background-color: lightgray;
+  
+}
+
+::placeholder {
+  font-weight: 700;  
+}
+
+form button {
+  text-transform: uppercase;
+}
+
+form .names {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.error {
+  font-size: var(--fs-default);
+  color: red;
+  text-align: center;
+  font-style: italic;
+  font-size: var(--fs-small);
+}
+
+.form-wrap {
+  width: min(90%, 35rem);  
+  margin-top: 3%;
 }

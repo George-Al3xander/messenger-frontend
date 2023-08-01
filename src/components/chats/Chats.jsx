@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect, useRef } from 'react'
-import { Context } from "../context"
-import ChatPreview from './chats/ChatPreview';
+import { Context } from "../../context"
+import ChatPreview from './ChatPreview';
 import { Link } from 'react-router-dom';
 
 
@@ -31,6 +31,7 @@ const Chats = () => {
             }                      
         })
         messages = await messages.json();
+        //console.log(messages)
         return messages
     }
 

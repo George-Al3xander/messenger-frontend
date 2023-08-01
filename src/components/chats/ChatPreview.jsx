@@ -7,7 +7,7 @@ const ChatPreview = ({chat}) => {
     
     return(<li className='chat-preview'>
         <h1>{partner.username}</h1>
-        <p>{chat.messages[0].text}</p>
+        {chat.messages.length > 0 ?<p>{chat.messages[chat.messages.length-1].text}</p> : null}
     </li>)
 }
 

@@ -1,5 +1,6 @@
 import { useState, useContext, useRef, useEffect } from 'react'
 import  {Context } from '../../context.js';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     const form = useRef();
@@ -15,8 +16,8 @@ const Login = () => {
         e.preventDefault();
         try {
         const formData = new FormData(form.current);
-        const username = formData.get("username");
-        const password = formData.get("password")
+        const username = formData.get("username").trim();
+        const password = formData.get("password"); 
         const res = await fetch(`${apiLink}/users/login`, {
             method: "POST",
             headers: {
@@ -35,16 +36,24 @@ const Login = () => {
             setMsgError(error)
         }       
     }
-    return(
-    <form onSubmit={login} ref={form}>
-        {msgError != "" ? msgError : null}
-        <br />
-        <input required type="text" name='username'/>
-        <br />
-        <input required type="password" name='password' />
-        <br />
-        <button>Login</button>
-    </form>
+    return(        
+    <div className="form-wrap container">
+        <form  onSubmit={login} ref={form}>           
+            <div className='form-header'>
+                <legend>Sign in</legend>
+            </div>
+            <div className="form-body">
+                <input required type="text"  placeholder='Username' name='username'/>
+                <input required type="password"  placeholder='Password' name='password'/>
+                {msgError != "" ? <div className='error'><h1>{msgError}</h1></div> : null}
+            <button>Sign in</button>
+            </div>
+            <div className='form-footer'>
+                <p>Don't have an account?</p>
+                <Link to="/register">Sign up now</Link>
+            </div>
+        </form>
+    </div>
     )
 }
 
