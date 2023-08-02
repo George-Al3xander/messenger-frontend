@@ -26,22 +26,26 @@ const Messages = ({messages, partner}) => {
     const [sortedMessages, setSortedMessages] = useState([])
 
     useEffect(() => {
-        let res = messages.map((message) => {
-            let sorted = messages.filter((msg) => {
-                return moment(message.createdAt).format('L') == moment(msg.createdAt).format('L');
+        if(messages.length > 0) {
+            let res = messages.map((message) => {
+                let sorted = messages.filter((msg) => {
+                    return moment(message.createdAt).format('L') == moment(msg.createdAt).format('L');
+                })
+                let obj = {date: moment(message.createdAt).format('L'), messages:sorted}
+                return obj
             })
-            let obj = {date: moment(message.createdAt).format('L'), messages:sorted}
-            return obj
-        })
-
-        res = removeDuplicateObjects(res, "date")
-        console.log(res)
-        setSortedMessages(res)
+    
+            res = removeDuplicateObjects(res, "date")        
+            setSortedMessages(res)
+        }
     }, [messages])
     return(
         <ul className='messages'>
             {sortedMessages.map((sorted) => {
-                return <>               
+                return <>   
+
+                {(messages.length > 0 && Object.keys(partner).length > 0) ?             
+                    <>
                     <h1 className='message-date'>
                     {moment(new Date()).format("YYYY") == moment(sorted.date).format("YYYY") ?
                     
@@ -60,6 +64,9 @@ const Messages = ({messages, partner}) => {
                     {sorted.messages.map((message) => {
                         return <Message messageIndex={messages.indexOf(message)} messagesLength={messages.length - 1}  partner={partner} message={message}/>
                     })}
+                    </>
+                    :
+                    null}
                 </>
                 //
             })}

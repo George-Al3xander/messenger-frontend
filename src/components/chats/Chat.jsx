@@ -134,7 +134,25 @@ const Chat = () => {
         if(Object.keys(chat).length > 0 && mockStatus == false) {
             getMessages(chat._id) 
         }
-    },[chat])
+    })
+
+    useEffect(() => {        
+        //console.log(partner)
+        if(partner.name == undefined  && Object.keys(partner).length > 0) {
+            const getFullPartner = async ()=> {        
+                const res = await fetch(`${apiLink}/users/${currentUser._id}/search?searchKey=${partner.username}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,           
+                    }                      
+                    })
+                const data = await res.json(); 
+                const partnerDb  = await data.data[0]; 
+                setPartner(partnerDb)
+            }
+            getFullPartner();
+        }
+    }, [partner])
 
 
     const getPartner = async ()=> {
@@ -163,7 +181,7 @@ const Chat = () => {
     
     
     return(
-    <div className='chat'>
+    <div className='chat'>        
         {Object.keys(partner).length > 0 ? <HeaderChat partner={partner}/> : null}        
         {/*
         <form onSubmit={sendMessage}>
@@ -172,20 +190,16 @@ const Chat = () => {
             }} /><button >Send</button>
         </form> */}
         <div className="content">
-        {(messages.length > 0 && Object.keys(partner).length > 0) ?  <Messages partner={partner} messages={messages}/>
-        : null}
+       <Messages partner={partner} messages={messages}/>
         </div>
         <div className="message-input-field">
-            <form className='message-input'>
+            <form onSubmit={sendMessage} className='message-input'>
             <textarea  ref={input}  onChange={(e) => {
                 autoResize();
                 setMessageText(e.target.value)
             }} wrap='off' placeholder='Type a message' name="message"  ></textarea>
                 {new RegExp(/\S/).test(messageText) ? 
-                    <button  onClick={(e) => {e.preventDefault()
-                            console.log(1)
-                            }}
-                    >Send</button>
+                    <button>Send</button>
                     :
                     null
                 }

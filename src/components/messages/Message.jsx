@@ -4,8 +4,7 @@ import { Context } from "../../context"
 import moment from 'moment';
 const Message = ({message, partner, messageIndex, messagesLength}) => {
     const {apiLink, setToken, currentUser ,setCurrentUser, token, navigate, loggedInCoond} = useContext(Context);
-    const msgRef = useRef();
-    console.log(messageIndex,messagesLength )
+    const msgRef = useRef();    
     useEffect(() => {
         msgRef.current.focus();
     },[])

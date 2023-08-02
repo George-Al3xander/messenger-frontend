@@ -1,12 +1,36 @@
 import { useState, useContext, useEffect } from 'react'
 import { Context } from "../../context"
 import moment from "moment"
-const ChatPreview = ({chat}) => {    
-    const {currentUser } = useContext(Context)
-    const partner = chat.participants.filter((party) =>  party.id != currentUser._id)[0]
+const ChatPreview = ({chat}) => {   
+    const {apiLink, setToken, currentUser ,setCurrentUser, token, navigate, loggedInCoond, chats} = useContext(Context);
+
+
+    const getPartner = async ()=> {        
+        const res = await fetch(`${apiLink}/users/${currentUser._id}/search?searchKey=${chat.participants.filter((party) =>  party.id != currentUser._id)[0].username}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,           
+            }                      
+            })
+        const data = await res.json(); 
+        const partner  = await data.data[0];        
+        setPartner(partner)
+    }
+
+    const [partner, setPartner] = useState({});
+
+    useEffect(() => {       
+        getPartner();        
+    }, [chat])
+    
+    
+    
+    
+    
+
     const [date, setDate] = useState("")
     useEffect(() => {
-        let dateDb = chat.createdAt
+        let dateDb = chat.messages[chat.messages.length-1].createdAt
         let dateMoment = moment(dateDb)
         if(moment(new Date()).format("L") == dateMoment.format("L")){
             setDate(dateMoment.format("LT"))
@@ -46,7 +70,10 @@ const ChatPreview = ({chat}) => {
         
         
         <div >
-            <h1>{partner.username}</h1>
+            {Object.keys(partner).length > 0 ?   
+            <h1>{partner.name.first + " " + partner.name.last}</h1>
+            : null}
+           
             {chat.messages.length > 0 ?<p>{chat.messages[chat.messages.length-1].text}</p> : null}
         </div>
 

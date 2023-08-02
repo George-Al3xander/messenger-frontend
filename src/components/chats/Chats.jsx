@@ -10,6 +10,7 @@ const Chats = () => {
 
     const {apiLink, setToken, currentUser ,setCurrentUser, token, navigate, loggedInCoond, setChats, chats} = useContext(Context)
     const [searchKey, setSearchKey] = useState("");
+    const [searchUserStatus, setSearchUserStatus] = useState(false)
     const [searchResultUsers, setSearchResultUsers] = useState([])
     const [searchResultLocal, setSearchResultLocal] = useState([])    
     const getChats = async () => {
@@ -37,7 +38,7 @@ const Chats = () => {
 
     const search = async () => {
         const valid = new RegExp(`${searchKey.toLowerCase()}`);
-        const res = await fetch(`${apiLink}/users/${currentUser._id}/search?searchKey=${searchKey}`, {
+        const res = await fetch(`${apiLink}/users/${currentUser._id}/search?searchKey=${searchKey}&status=full`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${token}`,           
@@ -76,7 +77,13 @@ const Chats = () => {
             messages = await getMessages(chatDb._id);
             return {...chatDb,messages}
             }))
-        setChats(await chatsDb)
+        chatsDb = await chatsDb;            
+        chatsDb = chatsDb.sort((a,b) => {
+            let date_a = a.messages[a.messages.length - 1].createdAt;
+            let date_b = b.messages[b.messages.length - 1].createdAt;   
+            return new Date(date_b) - new Date(date_a);
+          })
+        setChats(chatsDb)
     }
 
     useEffect(() => {
@@ -89,21 +96,56 @@ const Chats = () => {
    
     return(
     <div className='content'>
-        <HeaderChats setSearchKey={setSearchKey} />
-        <div className='search-field'>            
-            {searchResultUsers.length > 0 ? searchResultUsers.map((user) => {       
-                return <Link to={"/chats/" + user.username}><h2>{user.username}</h2></Link>
-            }) : null}
-            {searchResultLocal.length > 0 ? searchResultLocal.map((chat) => {            
-                return <Link to={"/chats/" + chat._id}><ChatPreview chat={chat}/></Link>
-            }) : null}
-        </div>
+        <HeaderChats searchUserStatus={searchUserStatus} setSearchUserStatus={setSearchUserStatus}  setSearchKey={setSearchKey} />
         
+        
+        
+        {searchUserStatus ? 
+
+        searchResultUsers.length > 0 ? 
+        
+        searchResultUsers.map((user) => { 
+            //className='chat-preview'
+            //<h1>{partner.name.first + " " + partner.name.last}</h1>      
+            return <Link to={"/chats/" + user.username}><div className='chat-preview'>
+                <div>
+                <h1>{user.name.first + " " + user.name.last }
+                {/* <span>{`${user.username}`}</span> */}
+                </h1>  
+                <h2>{user.username}</h2>
+                </div>
+                
+                </div>
+                </Link>
+        }) 
+        : 
+        <h1 className='error-msg'>No results :(</h1>
+        :
         <ul className='chats'>
-            {chats.length > 0 ? chats.map((chat) => {
+            {chats.length > 0 ? 
+
+            searchResultLocal.length > 0 ? 
+            searchResultLocal.map((chat) => {            
                 return <Link to={"/chats/" + chat._id}><ChatPreview chat={chat}/></Link>
-            }) : null}
+            })
+
+            :
+            
+            !new RegExp(/\S/).test(searchKey) ?
+
+                        
+            chats.map((chat) => {
+                return <Link to={"/chats/" + chat._id}><ChatPreview chat={chat}/></Link>
+            })
+
+            :
+            <h1 className='error-msg'>No results :(</h1>
+            : 
+            
+            null
+            }
         </ul>
+        }
     </div>
     )
 }

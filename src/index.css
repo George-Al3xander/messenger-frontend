@@ -64,7 +64,7 @@ body {
   width: 100%;  
 }
 
-.content, .message-input  {
+.content  {
   width: min(90%, 50rem);  
   margin-inline: auto;
 }
@@ -224,7 +224,7 @@ nav ul {
 }
 
 
-nav ul svg {
+nav ul li svg {
   fill: var(--clr-primary);
 }
 
@@ -235,8 +235,16 @@ nav ul svg:hover {
 }
 
 
+
 .chat-preview {
   padding: 3%;
+}
+
+.chat-preview span {
+  margin-left: 1rem;
+  opacity: .7;
+  font-style: italic;
+  font-size: var(--fs-small);
 }
 
 .chat-preview:hover {
@@ -274,6 +282,7 @@ nav ul svg:hover {
   background-color: var(--clr-primary-light);
   gap: 2rem;
   padding: 1rem;
+  align-items: center;  
 }
 
 .header-chat h1 {
@@ -293,9 +302,8 @@ nav ul svg:hover {
 
 .messages {
   gap: 1rem;
-  flex-direction: column;
-  overflow: scroll;
-  height: 75vh;
+  flex-direction: column;    
+  padding-bottom: 25%; 
 
 }
 
@@ -341,12 +349,14 @@ nav ul svg:hover {
 
 .message-input-field {
   background-color: var(--clr-accent);
-  padding: .5rem;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  padding: 5% 1rem; 
+  
 }
 
-.message-input {  
-  overflow-x: hidden;
-}
+
 
 .message-input textarea{
     width: 100%;
@@ -355,7 +365,6 @@ nav ul svg:hover {
     flex-basis: 100%;   
     border: 1px solid var(--clr-primary);
     border-radius: .5rem;
-
     display: block;
     overflow: hidden;
     resize: none;
@@ -371,6 +380,15 @@ nav ul svg:hover {
   
 }
 
+.message-input button:hover {
+  color: var(--clr-accent-dark);
+  cursor: pointer;
+}
+
 .message-input {
   display: flex;
+}
+
+.error-msg {
+  text-align: center;
 }
