@@ -1,20 +1,30 @@
-import { useParams } from 'react-router-dom';
-    import { useState, useContext, useEffect } from 'react'
+
+import { useState, useContext, useEffect, useRef } from 'react'
 import { Context } from "../../context"
-
-const Message = ({message, partner}) => {
+import moment from 'moment';
+const Message = ({message, partner, messageIndex, messagesLength}) => {
     const {apiLink, setToken, currentUser ,setCurrentUser, token, navigate, loggedInCoond} = useContext(Context);
-
+    const msgRef = useRef();
+    console.log(messageIndex,messagesLength )
+    useEffect(() => {
+        msgRef.current.focus();
+    },[])
     return(<>
 
     {partner.id != message.userId ?
-         <div className='message message-user'>
-            <p>{message.text}</p>           
+         <div tabIndex={messageIndex == messagesLength ? 0 : null} ref={msgRef} className='message message-user'>
+            <div className='message-content'>
+                <p>{message.text}</p>
+            </div>           
+            <div className='message-time'><h2>{moment(message.createdAt).format("LT")}</h2></div>
         </div>        
         : 
         
-        <div className='message message-partner'>
-            <p>{message.text}</p>
+        <div tabIndex={messageIndex == messagesLength ? 0 : null} ref={msgRef} className='message message-partner'>
+            <div className='message-content'>
+                <p>{message.text}</p>
+            </div>
+            <div className='message-time'><h2>{moment(message.createdAt).format("LT")}</h2></div>
         </div>}   
     
     

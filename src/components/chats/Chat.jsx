@@ -2,6 +2,8 @@ import { useParams } from 'react-router-dom';
     import { useState, useContext, useEffect, useRef } from 'react'
 import { Context } from "../../context"
 import Message from '../messages/Message';
+import HeaderChat from '../headers/HeaderChat';
+import Messages from '../messages/Messages';
 
 
 
@@ -31,8 +33,7 @@ const Chat = () => {
             })
             if(res.status == 200) {
                 const data = await res.json();
-                setChat(data)
-                console.log(data)
+                setChat(data)                
                 console.log("Existing chat, access through room id")
             } else {
                 let arr = chats.filter((chat) => {
@@ -51,8 +52,7 @@ const Chat = () => {
                 } else{
                     console.log("Not existing chat, access through mock status")   
                     getPartner(); 
-                    setMockStatus(true)
-                    console.log(1)
+                    setMockStatus(true)                    
                 }       
             }         
     }   
@@ -129,11 +129,12 @@ const Chat = () => {
     useEffect(() => {
         getChat();
     }, []);
+
     useEffect(() => {
         if(Object.keys(chat).length > 0 && mockStatus == false) {
             getMessages(chat._id) 
         }
-    })
+    },[chat])
 
 
     const getPartner = async ()=> {
@@ -154,23 +155,42 @@ const Chat = () => {
         } 
     },[chat])
 
-    useEffect(() => {
-       // console.log(messages)
-    },[messages])
+    function autoResize() {
+        input.current.style.height = 'auto';
+        input.current.style.height = input.current.scrollHeight + 'px';
+    }
 
+    
     
     return(
     <div className='chat'>
-        <h1>{Object.keys(partner).length !== 0 ? partner.username : null}</h1>
-        {messages.length > 0 ? messages.map((message) => {
-            return <Message partner={partner} message={message} /> 
-        }) : null}
-
+        {Object.keys(partner).length > 0 ? <HeaderChat partner={partner}/> : null}        
+        {/*
         <form onSubmit={sendMessage}>
             <input ref={input} type="text" onChange={(e) => {
                 setMessageText(e.target.value)
             }} /><button >Send</button>
-        </form>
+        </form> */}
+        <div className="content">
+        {(messages.length > 0 && Object.keys(partner).length > 0) ?  <Messages partner={partner} messages={messages}/>
+        : null}
+        </div>
+        <div className="message-input-field">
+            <form className='message-input'>
+            <textarea  ref={input}  onChange={(e) => {
+                autoResize();
+                setMessageText(e.target.value)
+            }} wrap='off' placeholder='Type a message' name="message"  ></textarea>
+                {new RegExp(/\S/).test(messageText) ? 
+                    <button  onClick={(e) => {e.preventDefault()
+                            console.log(1)
+                            }}
+                    >Send</button>
+                    :
+                    null
+                }
+            </form>
+        </div>        
     </div>
     )
 }

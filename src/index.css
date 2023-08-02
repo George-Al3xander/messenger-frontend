@@ -50,6 +50,8 @@ textarea {
 
 
   --clr-primary:  rgb(48, 163, 230);
+  --clr-primary-extra-light:  rgb(48, 163, 230, 10%);
+  --clr-primary-light:  rgb(48, 163, 230, 50%);
   --clr-accent: white;
   --clr-accent-dark: black;
 }
@@ -59,45 +61,44 @@ body {
 }
 
 #root {
-  width: 100%;
+  width: 100%;  
 }
 
-.content {
-  width: min(90%, 50rem);
-  padding-block: 2rem;
+.content, .message-input  {
+  width: min(90%, 50rem);  
   margin-inline: auto;
 }
 
-form, .chat-preview-header, .chat-preview-body {
+form:not(.message-input), .chat-preview-header, .chat-preview-body, .chat-preview, .header-chat, .messages {
   display: flex;
 }
 
-.chat-preview-header, .chat-preview-body {
+.chat-preview-header, .chat-preview-body, .chat-preview {
   flex-direction: row;
   justify-content: space-between;
 }
 
-form {
+form:not(.message-input) {
   flex-direction: column;  
   border-radius: 1rem;
 
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-form legend, form button {
+form:not(.message-input) legend, form:not(.message-input) button {
   background-color: var(--clr-primary);
   color: var(--clr-accent);
   font-weight: 700;
   text-align: center;
 }
 
-form button {
+form:not(.message-input) button {
   margin-top: 2rem;
   transition: all .5s ease;
 
 }
 
-form button:hover {
+form:not(.message-input) button:hover {
   cursor: pointer;
   background-color: var(--clr-accent-dark);
   transition: all .5s ease;
@@ -117,6 +118,10 @@ form legend {
   border-radius: 1rem 1rem 0 0;
   text-transform: capitalize;
   
+}
+
+.header-chats  {
+  padding-top: 2rem;
 }
 
 .container {
@@ -160,18 +165,18 @@ fieldset,form legend {
 }
 
 
-form button, input {
+form button, input:not(.message-input input) {
   width: 100%;
   padding: 1rem;
   border-radius: 2rem;
   margin-bottom: 1rem;
 }
 
-input {
+input:not(.message-input input) {
   background-color: lightgray;  
 }
 
-input:focus {
+input:not(.message-input input):focus {
   border: 2px  solid black;
 }
 
@@ -229,13 +234,26 @@ nav ul svg:hover {
   cursor: pointer;
 }
 
-.chat-preview-header {
-  margin-bottom: 1rem;
+
+.chat-preview {
+  padding: 3%;
 }
 
+.chat-preview:hover {
+  cursor: pointer;
+  background-color: lightgray;
+}
+
+
 .chat-preview h1{
-  font-size: var(--fs-big);
+  font-size: var(--fs-medium);
   font-weight: 500;
+  margin-bottom: 1rem;
+
+}
+
+.chat {
+  background-color: var(--clr-primary-extra-light);
 }
 
 .chat-preview h2 {
@@ -243,8 +261,116 @@ nav ul svg:hover {
   opacity: .7;
 }
 
+.chat-preview p {
+  opacity: .7;
+}
+
 .chats {
   display: flex;
+  flex-direction: column;  
+}
+
+.header-chat {
+  background-color: var(--clr-primary-light);
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.header-chat h1 {
+  font-size: var(--fs-big);
+  font-weight: 600;
+  color: var(--clr-accent);
+}
+
+.header-chat svg {
+  fill: var(--clr-accent);
+}
+
+.header-chat svg:hover {
+  cursor: pointer;
+  fill: var(--clr-accent-dark);
+}
+
+.messages {
+  gap: 1rem;
   flex-direction: column;
-  gap: 3rem;
+  overflow: scroll;
+  height: 75vh;
+
+}
+
+.message {  
+  padding: 1rem;  
+  max-width: 80%;
+  min-width: 50%;
+}
+
+.message p{
+  font-weight: 500;
+}
+
+.message-content {
+  margin-bottom: 1rem;
+}
+
+.message-time {
+  text-align: right;
+  opacity: .7;
+  font-size: var(--fs-small);
+}
+
+.message-user {
+  background-color: var(--clr-primary);
+  color: white;
+  margin-left: auto;
+  border-radius: 1rem 1rem 0 1rem;
+}
+
+.message-partner {
+  margin-right: auto;
+  background-color: var(--clr-accent);
+  color: black;
+  border-radius: 1rem 1rem 1rem 0;
+}
+
+.message-date {
+  text-align: center;
+  opacity: .7;
+  margin-block: 1rem;
+}
+
+.message-input-field {
+  background-color: var(--clr-accent);
+  padding: .5rem;
+}
+
+.message-input {  
+  overflow-x: hidden;
+}
+
+.message-input textarea{
+    width: 100%;
+    word-wrap:break-word;   
+    padding: .5rem;
+    flex-basis: 100%;   
+    border: 1px solid var(--clr-primary);
+    border-radius: .5rem;
+
+    display: block;
+    overflow: hidden;
+    resize: none;
+}
+
+
+.message-input button {
+  padding: 0;
+  margin: 0 1rem;
+  width: min-content;
+  color: var(--clr-primary);
+  font-weight: 700;
+  
+}
+
+.message-input {
+  display: flex;
 }

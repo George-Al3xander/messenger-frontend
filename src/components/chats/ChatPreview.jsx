@@ -22,7 +22,10 @@ const ChatPreview = ({chat}) => {
                     &&
                     Math.abs(dateMoment.format("M") - moment(new Date()).format("M")) == 1
                     &&
-                    Math.abs(Math.abs(dateMoment.format("D") - 31) - moment(new Date()).format("D")) < 8                
+                    Math.abs(Math.abs(dateMoment.format("D") - 31) - moment(new Date()).format("D")) < 8   
+                    &&
+                    moment(new Date()).format("d") >  dateMoment.format("d")   
+
                 ) {
                     setDate(dateMoment.format("dddd"))
                 } 
@@ -32,23 +35,23 @@ const ChatPreview = ({chat}) => {
                     setDate(dateMoment.format("dddd"))
                 }
                 else  {
-                    setDate(dateMoment.format("MMM M"))
+                    setDate(dateMoment.format("MMM D"))
                 }                
             }
             
         }
-        console.log(dateMoment.format("M") - 1 == 7)
-        
     }, [chat])
     
     return(<li key={chat._id} className='chat-preview'>
-        <div className='chat-preview-header'>
+        
+        
+        <div >
             <h1>{partner.username}</h1>
-            <h2>{date}</h2>
+            {chat.messages.length > 0 ?<p>{chat.messages[chat.messages.length-1].text}</p> : null}
         </div>
 
-        <div className="chat-preview-body">
-            {chat.messages.length > 0 ?<p>{chat.messages[chat.messages.length-1].text}</p> : null}
+        <div >
+            <h2>{date}</h2>
         </div>
         
     </li>)

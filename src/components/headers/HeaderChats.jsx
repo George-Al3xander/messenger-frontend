@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 const HeaderChats = ({setSearchKey}) => {
 
     return(
-    <header>
+    <header className='header-chats'>
         <nav>
             <ul>
                 <li>
