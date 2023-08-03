@@ -5,6 +5,7 @@ import Login from "./components/user/Login"
 import Register from "./components/user/Register"
 import Chats from "./components/chats/Chats"
 import Chat from "./components/chats/Chat"
+import Settings from './components/Settings';
 //{Object.keys(currentUser).length !== 0  ? <h1>Welcome back, {currentUser.name.first}</h1> : null}
 function App() {  
   const apiLink = "http://192.168.0.111:3000"
@@ -22,6 +23,7 @@ function App() {
         <Route path="/chats/:id"  element={<Chat />} />
         <Route path="/login" element={<Login />}/>    
         <Route path="/register" element={<Register />}/>    
+        <Route path="/settings" element={<Settings />}/>    
       </Routes>      
 
     </Context.Provider>

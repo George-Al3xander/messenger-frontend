@@ -126,7 +126,7 @@ const Chats = () => {
 
             searchResultLocal.length > 0 ? 
             searchResultLocal.map((chat) => {            
-                return <Link to={"/chats/" + chat._id}><ChatPreview chat={chat}/></Link>
+                return <Link key={chat._id} to={"/chats/" + chat._id}><ChatPreview chat={chat}/></Link>
             })
 
             :

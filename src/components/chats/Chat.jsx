@@ -66,6 +66,7 @@ const Chat = () => {
         messages = await messages.json();       
         setMessages(messages)
     }
+    
 
     const sendMessage = async (e) => {
         e.preventDefault();
