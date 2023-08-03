@@ -1,6 +1,5 @@
-import { useState, useContext, useEffect,  useRef } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { Context } from "../context"
-import { Link } from 'react-router-dom';
 import HeaderSettings from './headers/HeaderSettings';
 const Settings = () => {    
     const {apiLink, currentUser, token,loggedInCoond,navigate, setCurrentUser} = useContext(Context);
@@ -14,6 +13,7 @@ const Settings = () => {
             navigate("/login")
         }
     })
+    
 
     const [username, setUsername] = useState("")
     const [firstName, setFirstName] = useState("");

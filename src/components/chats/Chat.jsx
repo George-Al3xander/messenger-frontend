@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
-    import { useState, useContext, useEffect, useRef } from 'react'
+import { useState, useContext, useEffect, useRef } from 'react'
 import { Context } from "../../context"
-import Message from '../messages/Message';
+
 import HeaderChat from '../headers/HeaderChat';
 import Messages from '../messages/Messages';
 
@@ -10,7 +10,7 @@ import Messages from '../messages/Messages';
 
 const Chat = () => {
     const {id} = useParams();    
-    const {apiLink, setToken, currentUser ,setCurrentUser, token, navigate, loggedInCoond, chats} = useContext(Context);
+    const {apiLink,  currentUser ,token, navigate, loggedInCoond, chats} = useContext(Context);
 
     useEffect(() => {
         if(!loggedInCoond) {
@@ -33,8 +33,7 @@ const Chat = () => {
             })
             if(res.status == 200) {
                 const data = await res.json();
-                setChat(data)                
-                console.log("Existing chat, access through room id")
+                setChat(data)   
             } else {
                 let arr = chats.filter((chat) => {
                     let res = chat.participants.filter((party) => {
@@ -45,12 +44,9 @@ const Chat = () => {
                     })[0]                
                     return res
                 })[0]
-                if(arr != undefined) {
-                    console.log("Existing chat, access through username")     
-    
+                if(arr != undefined) {                    
                     setChat(arr)
-                } else{
-                    console.log("Not existing chat, access through mock status")   
+                } else{                  
                     getPartner(); 
                     setMockStatus(true)                    
                 }       
@@ -183,13 +179,7 @@ const Chat = () => {
     
     return(
     <div className='chat'>        
-        {Object.keys(partner).length > 0 ? <HeaderChat partner={partner}/> : null}        
-        {/*
-        <form onSubmit={sendMessage}>
-            <input ref={input} type="text" onChange={(e) => {
-                setMessageText(e.target.value)
-            }} /><button >Send</button>
-        </form> */}
+        {Object.keys(partner).length > 0 ? <HeaderChat partner={partner}/> : null}  
         <div className="content">
        <Messages partner={partner} messages={messages}/>
         </div>

@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from 'react'
 import { Context } from "../../context"
 import moment from "moment"
 const ChatPreview = ({chat}) => {   
-    const {apiLink, setToken, currentUser ,setCurrentUser, token, navigate, loggedInCoond, chats} = useContext(Context);
+    const {apiLink, setToken, currentUser , token} = useContext(Context);
 
 
     const getPartner = async ()=> {        
@@ -15,8 +15,7 @@ const ChatPreview = ({chat}) => {
         const data = await res.json(); 
         const partner  = await data.data[0];        
         setPartner(partner)
-    }
-
+    }    
     const [partner, setPartner] = useState({});
 
     useEffect(() => {       
@@ -38,9 +37,6 @@ const ChatPreview = ({chat}) => {
             if(dateMoment.format("Y") != moment(new Date()).format("Y")) {
                 setDate(dateMoment.format("L"))
             } else {
-                //Same year condition
-
-                //Different month, same week condition
                 if(
                     dateMoment.format("M") != moment(new Date()).format("M") 
                     &&
@@ -52,8 +48,7 @@ const ChatPreview = ({chat}) => {
 
                 ) {
                     setDate(dateMoment.format("dddd"))
-                } 
-                //Same month, same week
+                }                 
                 else if(dateMoment.format("M") == moment(new Date()).format("M") 
                 && Math.abs(dateMoment.format("D") - moment(new Date()).format("D")) < 8 ) {
                     setDate(dateMoment.format("dddd"))

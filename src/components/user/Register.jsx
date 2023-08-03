@@ -17,8 +17,8 @@ const Register = () => {
         if(loggedInCoond) {
             navigate("/")
         }
-    })    
-
+    })   
+    
     const register = async (e) => {
         e.preventDefault();
         const formData = new FormData(form.current);
@@ -66,8 +66,7 @@ const Register = () => {
                     }
                     throw data.msg
                 }
-            } catch (error) {
-                console.log(error)
+            } catch (error) {                
                 setMsgError(error.split("--"))
             }        
  

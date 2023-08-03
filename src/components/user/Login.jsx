@@ -25,11 +25,9 @@ const Login = () => {
             },
             body: JSON.stringify({username, password})                      
         })
-        const data = await res.json();
-        console.log(res)
+        const data = await res.json();      
         if(res.status == 200) {
-            setToken(data.token)
-            console.log(data.user)
+            setToken(data.token)           
             
             setCurrentUser(data.user) 
         } else {

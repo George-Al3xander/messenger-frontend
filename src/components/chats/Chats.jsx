@@ -31,8 +31,7 @@ const Chats = () => {
                 "Authorization": `Bearer ${token}`,           
             }                      
         })
-        messages = await messages.json();
-        //console.log(messages)
+        messages = await messages.json();        
         return messages
     }
 
@@ -104,13 +103,10 @@ const Chats = () => {
 
         searchResultUsers.length > 0 ? 
         
-        searchResultUsers.map((user) => { 
-            //className='chat-preview'
-            //<h1>{partner.name.first + " " + partner.name.last}</h1>      
+        searchResultUsers.map((user) => {                 
             return <Link to={"/chats/" + user.username}><div className='chat-preview'>
                 <div>
-                <h1>{user.name.first + " " + user.name.last }
-                {/* <span>{`${user.username}`}</span> */}
+                <h1>{user.name.first + " " + user.name.last }               
                 </h1>  
                 <h2>{user.username}</h2>
                 </div>

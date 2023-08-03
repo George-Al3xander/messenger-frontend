@@ -1,6 +1,4 @@
-import { useState, useContext, useEffect,  useRef } from 'react'
-import { Context } from "../../context"
-
+import { useRef } from 'react'
 import { Link } from 'react-router-dom';
 
 
@@ -9,7 +7,7 @@ import { Link } from 'react-router-dom';
 const HeaderChats = ({setSearchKey,searchUserStatus,
     setSearchUserStatus}) => {
     const input = useRef();
-    const {apiLink, currentUser, token} = useContext(Context);
+    
     return(
     <header className='header-chats'>
         <nav>
