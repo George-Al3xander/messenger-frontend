@@ -1,3 +1,5 @@
+import {  useEffect, useRef } from 'react'
+
 import moment from 'moment';
 const Message = ({message, partner, messageIndex, messagesLength}) => {    
     const msgRef = useRef();    
@@ -5,6 +7,7 @@ const Message = ({message, partner, messageIndex, messagesLength}) => {
         msgRef.current.focus();
     },[])
     return(<>
+
     {partner.id != message.userId ?
          <div tabIndex={messageIndex == messagesLength ? 0 : null} ref={msgRef} className='message message-user'>
             <div className='message-content'>
