@@ -8,7 +8,7 @@ import Chat from "./components/chats/Chat"
 import Settings from './components/Settings';
 //{Object.keys(currentUser).length !== 0  ? <h1>Welcome back, {currentUser.name.first}</h1> : null}
 function App() {  
-  const apiLink = "http://192.168.0.111:3000"
+  const apiLink = "https://messenger-backend-4yf5.onrender.com"
   const [token, setToken] = useState("");
   const navigate = useNavigate();
   const [chats, setChats] = useState([]);

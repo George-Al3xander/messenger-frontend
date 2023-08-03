@@ -17,7 +17,7 @@ const Login = () => {
         try {
         const formData = new FormData(form.current);
         const username = formData.get("username").trim();
-        const password = formData.get("password"); 
+        const password = formData.get("password");        
         const res = await fetch(`${apiLink}/users/login`, {
             method: "POST",
             headers: {
@@ -26,9 +26,12 @@ const Login = () => {
             body: JSON.stringify({username, password})                      
         })
         const data = await res.json();
+        console.log(res)
         if(res.status == 200) {
             setToken(data.token)
-            setCurrentUser(data.user)             
+            console.log(data.user)
+            
+            setCurrentUser(data.user) 
         } else {
             throw data.msg
         }
