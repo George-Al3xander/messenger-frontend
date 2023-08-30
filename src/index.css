@@ -461,6 +461,19 @@ nav ul svg:hover {
   transition: all .5s ease;
 }
 
+.btn-disabled {
+  opacity: .7;
+}
+
+.anotation {
+  opacity: .7;
+}
+
+.anotation span {
+  font-style: italic;
+  
+}
+
 @media (max-width: 32rem) {
   .form-wrap {
     width: 100%;

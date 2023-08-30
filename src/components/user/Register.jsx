@@ -11,7 +11,8 @@ const Register = () => {
     const [confirmPasswordValid, setConfirmPasswordValid] = useState(true);
     const [creationStatus, setCreationStatus] = useState(false);
     const [msgError, setMsgError] = useState([]);
-    const {apiLink, setToken, setCurrentUser, currentUser,token, navigate, loggedInCoond} = useContext(Context)
+    const {apiLink, navigate, loggedInCoond} = useContext(Context)
+    const [isPending, setIsPending] = useState(false)
 
     useEffect(() => {
         if(loggedInCoond) {
@@ -20,6 +21,7 @@ const Register = () => {
     })   
     
     const register = async (e) => {
+        setIsPending(true)
         e.preventDefault();
         const formData = new FormData(form.current);
         const username = formData.get("username").trim();
@@ -69,7 +71,7 @@ const Register = () => {
             } catch (error) {                
                 setMsgError(error.split("--"))
             }        
- 
+            setIsPending(false) 
     }
 
     return(
@@ -106,7 +108,11 @@ const Register = () => {
                 {msgError.length > 0 ? <div className='error'>{msgError.map((err) => {
                     return <h1 key={err}>{err}</h1>
                 })}</div> : null}
-                <button>Sign up</button>
+                {isPending ?
+                    <button className='btn-disabled' disabled>Signing up...</button>
+                    :
+                    <button>Sign up</button>
+                }
                 </div>
                 <div className='form-footer'>
                     <p>Alredy have an account?</p>
